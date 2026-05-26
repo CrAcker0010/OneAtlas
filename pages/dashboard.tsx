@@ -6,7 +6,7 @@ import {
   Globe, MoreHorizontal, TrendingUp, Users, Clock, Star, ArrowUpRight,
   Filter, Grid, List, Rocket, Eye, Edit3, ExternalLink, LogOut, ChevronDown
 } from 'lucide-react';
-import { useAuth, withAuth } from '@/contexts/AuthContext';
+} from 'lucide-react';
 
 const projects = [
   { id: 1, name: 'AI Sales CRM', description: 'Customer relationship management with AI-powered insights', status: 'live', url: 'ai-sales-crm.oneatlas.app', lastUpdated: '2h ago', users: 142, views: 3.2, gradient: 'from-blue-500/20 to-cyan-500/10', accent: '#3b82f6', icon: '💼' },
@@ -41,8 +41,9 @@ const statusConfig = {
 };
 
 function DashboardPage() {
-  const { user, logout } = useAuth();
   const router = useRouter();
+  const user = { name: 'Demo User', email: 'demo@oneatlas.app', plan: 'builder', creditsUsed: 145, creditsTotal: 200 };
+  const logout = () => router.push('/');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -331,4 +332,4 @@ function DashboardPage() {
   );
 }
 
-export default withAuth(DashboardPage);
+export default DashboardPage;

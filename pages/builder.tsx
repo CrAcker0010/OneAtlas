@@ -7,8 +7,6 @@ import {
   GitBranch, Globe, X, Plus, MessageSquare
 } from 'lucide-react';
 import Link from 'next/link';
-import { withAuth } from '@/contexts/AuthContext';
-
 type ViewMode = 'preview' | 'code' | 'chat';
 type DeviceMode = 'desktop' | 'tablet' | 'mobile';
 
@@ -112,7 +110,7 @@ function GeneratingOverlay({ onComplete }: { onComplete: () => void }) {
   );
 }
 
-function Builder() {
+export default function Builder() {
   const router = useRouter();
   const { prompt, template } = router.query;
   const [isGenerating, setIsGenerating] = useState(false);
@@ -450,5 +448,3 @@ function Builder() {
     </div>
   );
 }
-
-export default withAuth(Builder);

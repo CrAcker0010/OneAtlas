@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { ChevronDown, LogIn, Zap, Menu, X, Globe, Shield, Users, BarChart3, Cpu, Layers, LogOut, LayoutDashboard } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/router';
+import { ChevronDown, Zap, Menu, X, Globe, Shield, Users, BarChart3, Cpu, Layers, LayoutDashboard } from 'lucide-react';
 
 const megaMenus = {
   product: [
@@ -29,8 +28,6 @@ export const Navigation = () => {
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const { user, isAuthenticated, logout } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -38,12 +35,6 @@ export const Navigation = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleLogout = () => {
-    setUserMenuOpen(false);
-    logout();
-    router.push('/');
-  };
 
   const navItems = ['Product', 'Use Cases', 'Templates', 'Enterprise', 'Pricing'];
 
@@ -103,60 +94,13 @@ export const Navigation = () => {
 
           {/* Right Actions */}
           <div className="hidden md:flex items-center gap-3">
-            {isAuthenticated && user ? (
-              /* Authenticated state */
-              <div className="relative">
-                <button
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl glass-light border border-white/8 hover:border-white/15 transition"
-                >
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-br from-primary-500 to-accent-pink flex items-center justify-center text-sm font-bold text-white">
-                    {user.name?.charAt(0)?.toUpperCase() ?? 'U'}
-                  </div>
-                  <span className="text-white text-sm font-medium">{user.name?.split(' ')[0]}</span>
-                  <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`} />
-                </button>
-
-                {/* User Dropdown */}
-                {userMenuOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-52 glass border border-white/10 rounded-xl shadow-2xl p-1 z-50">
-                    <div className="px-3 py-2 border-b border-white/5 mb-1">
-                      <div className="text-xs text-white font-medium truncate">{user.name}</div>
-                      <div className="text-xs text-slate-500 truncate">{user.email}</div>
-                      <div className="mt-1.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-500/15 text-primary-400 text-xs capitalize">
-                        <Zap className="w-3 h-3" />
-                        {user.plan} plan
-                      </div>
-                    </div>
-                    <Link href="/dashboard" onClick={() => setUserMenuOpen(false)}
-                      className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-white/5 transition"
-                    >
-                      <LayoutDashboard className="w-4 h-4" />
-                      Dashboard
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-red-400 hover:text-red-300 hover:bg-red-500/5 transition"
-                    >
-                      <LogOut className="w-4 h-4" />
-                      Sign out
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              /* Guest state */
-              <>
-                {/* <Link href="/auth/signin" className="btn-ghost flex items-center gap-2">
-                  <LogIn className="w-4 h-4" />
-                  Sign in
-                </Link> */}
-                <Link href="/dashboard" className="btn-primary flex items-center gap-2 text-sm">
-                  
-                  Start Building
-                </Link>
-              </>
-            )}
+            <Link href="/dashboard" className="btn-ghost flex items-center gap-2">
+              Dashboard
+            </Link>
+            <Link href="/builder" className="btn-primary flex items-center gap-2 text-sm">
+              <Zap className="w-4 h-4" />
+              Start Building
+            </Link>
           </div>
 
           {/* Mobile Toggle */}
@@ -166,8 +110,6 @@ export const Navigation = () => {
         </div>
       </div>
 
-      {/* Backdrop for dropdown */}
-      {userMenuOpen && <div className="fixed inset-0 z-40" onClick={() => setUserMenuOpen(false)} />}
 
       {/* Mobile Menu */}
       {mobileOpen && (
@@ -178,19 +120,10 @@ export const Navigation = () => {
             </a>
           ))}
           <div className="pt-4 border-t border-white/5 flex flex-col gap-3">
-            {isAuthenticated ? (
-              <>
-                <Link href="/dashboard" className="btn-secondary text-center" onClick={() => setMobileOpen(false)}>Dashboard</Link>
-                <button onClick={() => { setMobileOpen(false); handleLogout(); }} className="btn-ghost text-red-400 text-center">Sign out</button>
-              </>
-            ) : (
-              <>
-                <Link href="/auth/signin" className="btn-secondary text-center">Sign in</Link>
-                <Link href="/dashboard" className="btn-primary text-center flex items-center justify-center gap-2">
-                  <Zap className="w-4 h-4" /> Start Building
-                </Link>
-              </>
-            )}
+            <Link href="/dashboard" className="btn-secondary text-center" onClick={() => setMobileOpen(false)}>Dashboard</Link>
+            <Link href="/builder" className="btn-primary text-center flex items-center justify-center gap-2" onClick={() => setMobileOpen(false)}>
+              <Zap className="w-4 h-4" /> Start Building
+            </Link>
           </div>
         </div>
       )}
