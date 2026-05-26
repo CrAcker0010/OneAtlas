@@ -147,14 +147,14 @@ export const Navigation = () => {
             ) : (
               /* Guest state */
               <>
-                <Link href="/auth/signin" className="btn-ghost flex items-center gap-2">
+                {/* <Link href="/auth/signin" className="btn-ghost flex items-center gap-2">
                   <LogIn className="w-4 h-4" />
                   Sign in
                 </Link>
                 <Link href="/auth/signup" className="btn-primary flex items-center gap-2 text-sm">
-                  <Zap className="w-4 h-4" />
+                  <Zap className="w-4 h-4" /> */}
                   Start Building
-                </Link>
+                {/* </Link> */}
               </>
             )}
           </div>
