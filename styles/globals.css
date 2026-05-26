@@ -15,7 +15,7 @@ html {
 }
 
 body {
-  background: #0a0a0f;
+  background: #3b3b96;
   color: #e2e8f0;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
@@ -48,7 +48,7 @@ body {
   background: rgba(13, 13, 30, 0.8);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(59, 55, 55, 0.06);
 }
 
 .glass-card {

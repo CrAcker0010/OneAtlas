@@ -1,7 +1,7 @@
 import React from 'react';
-import { Navigation } from '@/components/Navigation';
-import { PricingSection } from '@/components/PricingSection';
-import { Footer } from '@/components/Footer';
+import { Navigation } from '@/app/components/Navigation';
+import { PricingSection } from '@/app/components/PricingSection';
+import { Footer } from '@/app/components/Footer';
 import Head from 'next/head';
 
 export default function Pricing() {

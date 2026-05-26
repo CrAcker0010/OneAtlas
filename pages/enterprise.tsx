@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Navigation } from '@/components/Navigation';
-import { Footer } from '@/components/Footer';
+import { Navigation } from '@/app/components/Navigation';
+import { Footer } from '@/app/components/Footer';
 import { Shield, Globe, Users, Zap, Lock, BarChart3, CheckCircle, ArrowRight, Server } from 'lucide-react';
 import Head from 'next/head';
 

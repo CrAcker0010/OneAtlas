@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { ChevronDown, LogIn, Zap, Menu, X, Globe, Shield, Users, BarChart3, Cpu, Layers, LogOut, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -150,11 +150,11 @@ export const Navigation = () => {
                 {/* <Link href="/auth/signin" className="btn-ghost flex items-center gap-2">
                   <LogIn className="w-4 h-4" />
                   Sign in
-                </Link>
-                <Link href="/auth/signup" className="btn-primary flex items-center gap-2 text-sm">
-                  <Zap className="w-4 h-4" /> */}
+                </Link> */}
+                <Link href="/dashboard" className="btn-primary flex items-center gap-2 text-sm">
+                  
                   Start Building
-                {/* </Link> */}
+                </Link>
               </>
             )}
           </div>
@@ -186,7 +186,7 @@ export const Navigation = () => {
             ) : (
               <>
                 <Link href="/auth/signin" className="btn-secondary text-center">Sign in</Link>
-                <Link href="/auth/signup" className="btn-primary text-center flex items-center justify-center gap-2">
+                <Link href="/dashboard" className="btn-primary text-center flex items-center justify-center gap-2">
                   <Zap className="w-4 h-4" /> Start Building
                 </Link>
               </>

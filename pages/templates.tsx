@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { Heart, Eye, Search, Star, Zap, ArrowRight, Grid, List, Filter } from 'lucide-react';
-import { Navigation } from '@/components/Navigation';
-import { Footer } from '@/components/Footer';
+import { Navigation } from '@/app/components/Navigation';
+import { Footer } from '@/app/components/Footer';
 
 const allTemplates = [
   { id: 1, name: 'AI CRM Platform', category: 'Business', rating: 4.8, uses: 2400, time: '~2 min', desc: 'Full CRM with deal pipeline, contact management, and AI-powered email tracking', tags: ['React', 'AI', 'Database'], gradient: 'from-blue-500/20 to-cyan-500/10', accent: '#3b82f6', icon: '💼', featured: true },

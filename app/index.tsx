@@ -1,11 +1,11 @@
 import React from 'react';
-import { Navigation } from '@/components/Navigation';
-import { HeroSection } from '@/components/HeroSection';
-import { HowItWorks } from '@/components/HowItWorks';
-import { FeaturesSection } from '@/components/FeaturesSection';
-import { TemplatesShowcase } from '@/components/TemplatesShowcase';
-import { PricingSection } from '@/components/PricingSection';
-import { Footer } from '@/components/Footer';
+import { Navigation } from '@/app/components/Navigation';
+import { HeroSection } from '@/app/components/HeroSection';
+import { HowItWorks } from '@/app/components/HowItWorks';
+import { FeaturesSection } from '@/app/components/FeaturesSection';
+import { TemplatesShowcase } from '@/app/components/TemplatesShowcase';
+import { PricingSection } from '@/app/components/PricingSection';
+import { Footer } from '@/app/components/Footer';
 
 export default function Home() {
   return (
