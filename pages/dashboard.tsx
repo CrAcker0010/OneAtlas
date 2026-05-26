@@ -6,7 +6,7 @@ import {
   Globe, MoreHorizontal, TrendingUp, Users, Clock, Star, ArrowUpRight,
   Filter, Grid, List, Rocket, Eye, Edit3, ExternalLink, LogOut, ChevronDown
 } from 'lucide-react';
-} from 'lucide-react';
+
 
 const projects = [
   { id: 1, name: 'AI Sales CRM', description: 'Customer relationship management with AI-powered insights', status: 'live', url: 'ai-sales-crm.oneatlas.app', lastUpdated: '2h ago', users: 142, views: 3.2, gradient: 'from-blue-500/20 to-cyan-500/10', accent: '#3b82f6', icon: '💼' },
@@ -18,13 +18,13 @@ const projects = [
 ];
 
 const sidebarItems = [
-  { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard', active: true },
-  { icon: Rocket, label: 'Projects', href: '/dashboard', badge: '6' },
-  { icon: Star, label: 'Templates', href: '/templates' },
-  { icon: Users, label: 'Team', href: '/dashboard' },
-  { icon: Globe, label: 'Domains', href: '/dashboard' },
-  { icon: TrendingUp, label: 'Analytics', href: '/dashboard' },
-  { icon: Settings, label: 'Settings', href: '/dashboard' },
+  { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+  { id: 'projects', icon: Rocket, label: 'Projects', badge: '6' },
+  { id: 'templates', icon: Star, label: 'Templates', href: '/templates' },
+  { id: 'team', icon: Users, label: 'Team' },
+  { id: 'domains', icon: Globe, label: 'Domains' },
+  { id: 'analytics', icon: TrendingUp, label: 'Analytics' },
+  { id: 'settings', icon: Settings, label: 'Settings' },
 ];
 
 const statsConfig = [
@@ -44,6 +44,7 @@ function DashboardPage() {
   const router = useRouter();
   const user = { name: 'Demo User', email: 'demo@oneatlas.app', plan: 'builder', creditsUsed: 145, creditsTotal: 200 };
   const logout = () => router.push('/');
+  const [activeTab, setActiveTab] = useState('dashboard');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [showUserMenu, setShowUserMenu] = useState(false);
@@ -80,16 +81,25 @@ function DashboardPage() {
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           {sidebarItems.map((item) => {
             const Icon = item.icon;
+            if (item.href) {
+              return (
+                <Link key={item.id} href={item.href} className="sidebar-item">
+                  <Icon className="w-4 h-4" />
+                  {item.label}
+                  {item.badge && <span className="ml-auto text-xs bg-white/10 text-slate-400 px-1.5 py-0.5 rounded-md">{item.badge}</span>}
+                </Link>
+              );
+            }
             return (
-              <Link key={item.label} href={item.href} className={`sidebar-item ${item.active ? 'active' : ''}`}>
+              <button 
+                key={item.id} 
+                onClick={() => setActiveTab(item.id)} 
+                className={`w-full sidebar-item ${activeTab === item.id ? 'active' : ''}`}
+              >
                 <Icon className="w-4 h-4" />
                 {item.label}
-                {item.badge && (
-                  <span className="ml-auto text-xs bg-white/10 text-slate-400 px-1.5 py-0.5 rounded-md">
-                    {item.badge}
-                  </span>
-                )}
-              </Link>
+                {item.badge && <span className="ml-auto text-xs bg-white/10 text-slate-400 px-1.5 py-0.5 rounded-md">{item.badge}</span>}
+              </button>
             );
           })}
         </nav>
@@ -187,6 +197,7 @@ function DashboardPage() {
         </header>
 
         {/* Content */}
+        {activeTab === 'dashboard' || activeTab === 'projects' ? (
         <main className="flex-1 overflow-auto p-6" onClick={() => showUserMenu && setShowUserMenu(false)}>
           {/* Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -326,7 +337,26 @@ function DashboardPage() {
               );
             })}
           </div>
+          </div>
         </main>
+        ) : (
+        <main className="flex-1 flex flex-col items-center justify-center p-6 text-center" onClick={() => showUserMenu && setShowUserMenu(false)}>
+          <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-5">
+            {(() => {
+              const activeItem = sidebarItems.find(i => i.id === activeTab);
+              const Icon = activeItem?.icon || LayoutDashboard;
+              return <Icon className="w-8 h-8 text-primary-400" />;
+            })()}
+          </div>
+          <h2 className="text-2xl font-bold text-white mb-2 capitalize">{activeTab}</h2>
+          <p className="text-slate-400 max-w-sm mb-6 leading-relaxed">
+            This section is currently under construction. Check back soon for updates to the {activeTab} features.
+          </p>
+          <button onClick={() => setActiveTab('dashboard')} className="btn-secondary">
+            Return to Dashboard
+          </button>
+        </main>
+        )}
       </div>
     </div>
   );
