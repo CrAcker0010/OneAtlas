@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 // Mock template database
 const templates = [
@@ -34,10 +34,13 @@ const templates = [
   },
 ];
 
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const query = searchParams.get('q')?.toLowerCase() || '';
-  const category = searchParams.get('category') || 'all';
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'GET') {
+    return res.status(405).json({ success: false, error: 'Method not allowed' });
+  }
+
+  const query = (req.query.q as string)?.toLowerCase() || '';
+  const category = (req.query.category as string) || 'all';
 
   let results = templates;
 
@@ -56,7 +59,7 @@ export async function GET(request: NextRequest) {
     results = results.filter((t) => t.category === category);
   }
 
-  return NextResponse.json({
+  return res.status(200).json({
     success: true,
     data: results,
     count: results.length,

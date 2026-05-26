@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Zap, MessageSquare, Rocket, CheckCircle, ArrowRight } from 'lucide-react';
+import { MessageSquare, Zap, Rocket, CheckCircle } from 'lucide-react';
 
 const steps = [
   {
@@ -7,11 +7,9 @@ const steps = [
     title: 'Describe your idea',
     description: 'Tell OneAtlas what you want to build in plain English. Be as specific or vague as you want — our AI understands context.',
     icon: MessageSquare,
-    color: 'from-blue-500 to-cyan-500',
     details: ['Natural language input', 'Upload screenshots or docs', 'Start from a template'],
     code: `> Build me a SaaS CRM with deal pipeline,
   contact management, and email tracking.
-  Use a dark theme with purple accents.
 
 ✓ Analyzing requirements...
 ✓ Choosing optimal stack...
@@ -22,7 +20,6 @@ const steps = [
     title: 'Watch it come alive',
     description: 'See your app build in real-time. OneAtlas uses frontier AI models to write production-quality code across your entire stack.',
     icon: Zap,
-    color: 'from-primary-500 to-accent-purple',
     details: ['Live code generation', 'Full-stack React + API', 'Auto-configured database'],
     code: `Creating components...
 ✓ App.tsx (layout & routing)
@@ -39,11 +36,10 @@ Build complete. 847 lines generated.`,
     title: 'Refine & ship',
     description: 'Iterate with natural language. Deploy to production with one click. Share your app with a custom domain instantly.',
     icon: Rocket,
-    color: 'from-accent-pink to-accent-orange',
     details: ['One-click deploy', 'Custom domains', 'Zero DevOps required'],
     code: `Deploying to OneAtlas Cloud...
 ✓ Building for production
-✓ Optimizing bundle size (94kb)
+✓ Optimizing bundle (94kb)
 ✓ Provisioning database
 ✓ Configuring CDN (47 regions)
 ✓ SSL certificate issued
@@ -61,12 +57,8 @@ function useCountUp(target: number, isVisible: boolean) {
     const increment = target / (duration / 16);
     const timer = setInterval(() => {
       start += increment;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
+      if (start >= target) { setCount(target); clearInterval(timer); }
+      else setCount(Math.floor(start));
     }, 16);
     return () => clearInterval(timer);
   }, [isVisible, target]);
@@ -106,29 +98,23 @@ export const HowItWorks = () => {
   const count2 = useCountUp(stats[2].value, statsVisible);
 
   return (
-    <section className="py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      <div className="absolute inset-0 bg-dots opacity-30" />
-
-      <div className="max-w-7xl mx-auto relative">
+    <section className="oa-section" style={{ background: '#FFFFFF' }}>
+      <div className="oa-container">
         {/* Header */}
         <div className="text-center mb-20">
-          <div className="badge mb-6">
-            <Zap className="w-4 h-4" />
-            How it works
-          </div>
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            From idea to app in{' '}
-            <span className="text-gradient">3 simple steps</span>
+          <p className="oa-label mb-4">How it works</p>
+          <h2 className="oa-section-heading mb-5">
+            From idea to app in 3 simple steps
           </h2>
-          <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+          <p className="oa-body max-w-xl mx-auto">
             No coding knowledge required. Just describe what you want.
           </p>
         </div>
 
         {/* Steps */}
-        <div className="grid lg:grid-cols-2 gap-16 items-center mb-32">
+        <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
           {/* Left - Step Cards */}
-          <div className="space-y-4">
+          <div className="space-y-3">
             {steps.map((step, idx) => {
               const Icon = step.icon;
               const isActive = activeStep === idx;
@@ -136,28 +122,32 @@ export const HowItWorks = () => {
                 <div
                   key={idx}
                   onClick={() => setActiveStep(idx)}
-                  className={`cursor-pointer rounded-2xl border p-6 transition-all duration-500 ${
-                    isActive
-                      ? 'border-primary-500/30 bg-primary-500/5 shadow-glow-sm'
-                      : 'border-white/5 hover:border-white/10 glass-light'
-                  }`}
+                  className="cursor-pointer rounded-2xl border p-6 transition-all duration-300"
+                  style={{
+                    background: isActive ? '#FFFFFF' : 'transparent',
+                    borderColor: isActive ? '#E5E7EB' : 'transparent',
+                    boxShadow: isActive ? '0 1px 2px rgba(0,0,0,0.03), 0 4px 16px rgba(0,0,0,0.04)' : 'none',
+                  }}
                 >
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-gradient-to-br ${step.color}`}>
-                      <Icon className="w-6 h-6 text-white" />
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{ background: isActive ? '#FFF4EE' : '#F3F4F6', border: `1px solid ${isActive ? '#FFD0B0' : '#E5E7EB'}` }}
+                    >
+                      <Icon className="w-5 h-5" style={{ color: isActive ? '#FF6600' : '#9CA3AF' }} />
                     </div>
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="text-xs font-mono text-slate-600">{step.number}</span>
-                        <h3 className={`font-bold text-lg transition-colors ${isActive ? 'text-white' : 'text-slate-300'}`}>
+                      <div className="flex items-center gap-3 mb-1.5">
+                        <span className="text-xs font-mono text-[#9CA3AF]">{step.number}</span>
+                        <h3 className="font-semibold text-lg" style={{ color: isActive ? '#111111' : '#6B7280' }}>
                           {step.title}
                         </h3>
                       </div>
-                      <p className="text-slate-500 text-sm leading-relaxed mb-4">{step.description}</p>
+                      <p className="text-[#6B7280] text-sm leading-relaxed mb-3">{step.description}</p>
                       {isActive && (
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-3">
                           {step.details.map((d, i) => (
-                            <div key={i} className="flex items-center gap-1.5 text-xs text-primary-400">
+                            <div key={i} className="flex items-center gap-1.5 text-xs text-[#FF6600]">
                               <CheckCircle className="w-3 h-3" />
                               {d}
                             </div>
@@ -171,35 +161,46 @@ export const HowItWorks = () => {
             })}
           </div>
 
-          {/* Right - Code Preview */}
+          {/* Right - Terminal */}
           <div className="relative">
-            <div className="absolute -inset-4 bg-gradient-to-r from-primary-500/10 to-accent-pink/10 rounded-3xl blur-2xl" />
-            <div className="relative terminal">
-              <div className="terminal-header">
-                <div className="terminal-dot bg-red-500/70" />
-                <div className="terminal-dot bg-yellow-500/70" />
-                <div className="terminal-dot bg-green-500/70" />
-                <span className="ml-3 text-slate-500 text-xs font-mono">oneatlas ~ build</span>
+            <div className="bg-[#1E1E1E] rounded-2xl overflow-hidden border border-[#333]">
+              {/* Terminal header */}
+              <div className="flex items-center gap-2 px-4 py-3 bg-[#2A2A2A] border-b border-[#333]">
+                <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
+                <div className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
+                <div className="w-3 h-3 rounded-full bg-[#28C840]" />
+                <span className="ml-3 text-[#555] text-xs font-mono">oneatlas ~ build</span>
               </div>
-              <div className="p-6 min-h-48">
+              <div className="p-6" style={{ minHeight: '200px' }}>
                 <pre className="text-sm leading-relaxed font-mono whitespace-pre-wrap">
                   {steps[activeStep].code.split('\n').map((line, i) => (
-                    <div key={i} className={`${line.startsWith('✓') ? 'text-green-400' : line.startsWith('>') ? 'text-primary-400' : line.startsWith('🚀') ? 'text-yellow-400' : 'text-slate-300'}`}>
+                    <div
+                      key={i}
+                      className={
+                        line.startsWith('✓') ? 'text-[#4ADE80]' :
+                        line.startsWith('>') ? 'text-[#FF6600]' :
+                        line.startsWith('🚀') ? 'text-[#FBBF24]' :
+                        'text-[#9CA3AF]'
+                      }
+                    >
                       {line}
                     </div>
                   ))}
                 </pre>
                 <div className="mt-4 flex items-center gap-2">
-                  <div className="w-2 h-4 bg-primary-500 rounded-sm animate-pulse" />
+                  <div className="w-2 h-4 bg-[#FF6600] rounded-sm" style={{ animation: 'pulse 1.2s ease-in-out infinite' }} />
                 </div>
               </div>
-
-              {/* Step Indicators */}
-              <div className="flex gap-2 px-6 pb-6">
+              {/* Step indicators */}
+              <div className="flex gap-2 px-6 pb-5">
                 {steps.map((_, i) => (
                   <div
                     key={i}
-                    className={`h-1 rounded-full transition-all duration-500 ${i === activeStep ? 'bg-primary-500 flex-1' : 'bg-white/10 w-8'}`}
+                    className="h-1 rounded-full transition-all duration-500"
+                    style={{
+                      background: i === activeStep ? '#FF6600' : '#333',
+                      flex: i === activeStep ? '1' : '0 0 24px',
+                    }}
                   />
                 ))}
               </div>
@@ -207,15 +208,15 @@ export const HowItWorks = () => {
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {/* Stats */}
+        <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {stats.map((stat, i) => (
             <div key={i} className="stat-card text-center">
-              <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+              <div className="text-3xl md:text-4xl font-bold text-[#111111] mb-1">
                 {i === 3 ? '99.9' : [count0, count1, count2][i]?.toLocaleString() ?? stat.value}
-                <span className="text-primary-400 text-2xl">{stat.suffix}</span>
+                <span style={{ color: '#FF6600' }} className="text-2xl">{stat.suffix}</span>
               </div>
-              <div className="text-slate-500 text-sm font-medium">{stat.label}</div>
+              <div className="text-[#6B7280] text-sm font-medium">{stat.label}</div>
             </div>
           ))}
         </div>
